@@ -14,21 +14,41 @@ const connectMongoDb = async () => {
   }
 }
 
+interface IFilm {
+  title: string
+  year: number
+  rating: number
+  gender: string
+}
+
 const filmSchema = new Schema({
   title: { type: String, required: true, unique: true },
   year: { type: Number, required: true },
   rating: { type: Number, default: 0 },
   gender: { type: String, required: true }
+}, {
+  versionKey: false
 })
 
 const Film = model("Film", filmSchema)
 
 // Crear un nuevo documento en la base de datos.
-const addNewFilm = async () => {
+const addNewFilm = async (newFilm: IFilm) => {
   try {
+    const { title, year, rating, gender } = newFilm
+    if (!title || !year || !rating || !gender) {
+      return { success: false, error: "invalid data" }
+    }
 
-  } catch (error) {
-
+    const newFileToDb = new Film({ title, year, rating, gender })
+    await newFileToDb.save()
+    return {
+      success: true,
+      data: newFileToDb,
+      message: "movie added successfully"
+    }
+  } catch (error: any) {
+    return { success: false, error: error.message }
   }
 }
 
@@ -68,4 +88,13 @@ const deleteFilm = async (id: string) => {
   }
 }
 
-connectMongoDb()
+
+const main = async () => {
+  connectMongoDb()
+
+  const savedFilm = await addNewFilm({ title: "El Menú", year: 2022, rating: 7.2, gender: "acción" })
+
+  console.log(savedFilm)
+}
+
+main()
