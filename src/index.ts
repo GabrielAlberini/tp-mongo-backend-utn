@@ -99,7 +99,7 @@ const updateFilm = async (id: string, newData: Partial<IFilm>) => {
     return {
       success: true,
       data: updatedFilm,
-      message: "movie successfully updated"
+      message: "film successfully updated"
     }
   } catch (error: any) {
     return {
@@ -112,9 +112,18 @@ const updateFilm = async (id: string, newData: Partial<IFilm>) => {
 // Eliminar un documento por su ID.
 const deleteFilm = async (id: string) => {
   try {
-
-  } catch (error) {
-
+    const deletedFilm = await Film.findByIdAndDelete(id)
+    if (!deletedFilm) return { success: false, mesage: "film not found" }
+    return {
+      success: true,
+      data: deletedFilm,
+      message: "film successfully deleted"
+    }
+  } catch (error: any) {
+    return {
+      success: false,
+      message: error.message
+    }
   }
 }
 
@@ -122,12 +131,13 @@ const deleteFilm = async (id: string) => {
 const main = async () => {
   connectMongoDb()
 
-  // const savedFilm = await addNewFilm({ title: "El Menú", year: 2022, rating: 7.2, gender: "acción" })
-  // const films = await getFilms()
+  // const savedFilm = await addNewFilm({ title: "La sustancia", year: 2022, rating: 7.2, gender: "acción" })
+  const films = await getFilms()
   // const film = await getFilm("681b618b78f0a72ea181f43c")
   // const updatedFilmd = await updateFilm("681b618b78f0a72ea181f43b", { rating: 10 })
+  // const deletedFilm = await deleteFilm("681b618b78f0a72ea181f43b")
 
-  // console.log(updatedFilmd)
+  console.log(films)
 }
 
 main()
