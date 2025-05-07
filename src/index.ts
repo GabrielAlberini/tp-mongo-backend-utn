@@ -55,9 +55,17 @@ const addNewFilm = async (newFilm: IFilm) => {
 // Obtener todos los documentos de la colección.
 const getFilms = async () => {
   try {
-
-  } catch (error) {
-
+    const films = await Film.find()
+    return {
+      success: true,
+      data: films,
+      message: "films successfully recovered"
+    }
+  } catch (error: any) {
+    return {
+      success: false,
+      error: error.message
+    }
   }
 }
 
@@ -92,9 +100,10 @@ const deleteFilm = async (id: string) => {
 const main = async () => {
   connectMongoDb()
 
-  const savedFilm = await addNewFilm({ title: "El Menú", year: 2022, rating: 7.2, gender: "acción" })
+  // const savedFilm = await addNewFilm({ title: "El Menú", year: 2022, rating: 7.2, gender: "acción" })
+  // const films = await getFilms()
 
-  console.log(savedFilm)
+  // console.log(films)
 }
 
 main()
