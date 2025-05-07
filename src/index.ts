@@ -72,7 +72,19 @@ const getFilms = async () => {
 // Obtener un documento por su ID.
 const getFilm = async (id: string) => {
   try {
+    const foundFilm = await Film.findById(id)
+    if (!foundFilm) {
+      return {
+        success: false,
+        message: "film not found"
+      }
+    }
 
+    return {
+      success: true,
+      data: foundFilm,
+      messge: "film successfully recovered"
+    }
   } catch (error) {
 
   }
@@ -102,8 +114,9 @@ const main = async () => {
 
   // const savedFilm = await addNewFilm({ title: "El Menú", year: 2022, rating: 7.2, gender: "acción" })
   // const films = await getFilms()
+  // const film = await getFilm("681b618b78f0a72ea181f43b")
 
-  // console.log(films)
+  // console.log(film)
 }
 
 main()
