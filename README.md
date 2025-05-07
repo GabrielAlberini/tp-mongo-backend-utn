@@ -24,7 +24,7 @@ Este módulo permite conectar a una base de datos MongoDB y realizar operaciones
 2. Crear un archivo `.env` en la raíz del proyecto con la siguiente variable:
 
    ```env
-   URI_DB=mongodb+srv://usuario:contraseña@cluster.mongodb.net/nombre_basedatos
+   URI_DB=mongodb://localhost:27017/"nombre de la base de datos" (en local)
    ```
 
 3. Activar la carga de variables con:
@@ -59,7 +59,7 @@ const filmSchema = new Schema({
 
 ## 📚 Funciones Disponibles
 
-### \u{1f5a5️} Conectar a la Base de Datos
+### Conectar a la Base de Datos
 
 ```ts
 await connectMongoDb()
