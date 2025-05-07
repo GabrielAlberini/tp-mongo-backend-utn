@@ -91,11 +91,21 @@ const getFilm = async (id: string) => {
 }
 
 // Actualizar un documento existente.
-const updateFilm = async (id: string) => {
+const updateFilm = async (id: string, newData: Partial<IFilm>) => {
   try {
+    const updatedFilm = await Film.findByIdAndUpdate(id, newData, { new: true })
+    if (!updatedFilm) return { succes: false, message: "film not found" }
 
-  } catch (error) {
-
+    return {
+      success: true,
+      data: updatedFilm,
+      message: "movie successfully updated"
+    }
+  } catch (error: any) {
+    return {
+      success: false,
+      error: error.message
+    }
   }
 }
 
@@ -114,9 +124,10 @@ const main = async () => {
 
   // const savedFilm = await addNewFilm({ title: "El Menú", year: 2022, rating: 7.2, gender: "acción" })
   // const films = await getFilms()
-  // const film = await getFilm("681b618b78f0a72ea181f43b")
+  // const film = await getFilm("681b618b78f0a72ea181f43c")
+  // const updatedFilmd = await updateFilm("681b618b78f0a72ea181f43b", { rating: 10 })
 
-  // console.log(film)
+  // console.log(updatedFilmd)
 }
 
 main()
